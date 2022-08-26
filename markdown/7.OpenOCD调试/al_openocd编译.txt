@@ -1,0 +1,25 @@
+WSL2:
+./bootstrap && ./configure --prefix=/mnt/d/debugger/al_openocd/build --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy --enable-static=yes --disable-shared PKG_CONFIG_PATH=/usr/lib/pkgconfig
+make && make install
+
+MSYS2 MSYS:
+注意：MSYS2安装路径和项目路径不要有空格
+pacman -Syu
+pacman -Su
+pacman -S --needed base-devel mingw-w64-x86_64-toolchain
+pacman -S mingw-w64-x86_64-libyaml
+pacman -S mingw-w64-x86_64-libusb
+pacman -S mingw-w64-x86_64-libftdi
+pacman -S libtool
+pacman -S autoconf
+pacman -S automake
+pacman -S texinfo
+pacman -S pkg-config
+pacman -S make
+pacman -S autogen
+pacman -S unzip
+pacman -S git
+MSYS2 MinGW X64:
+./bootstrap && ./configure PKG_CONFIG_PATH=/usr/lib/pkgconfig LDFLAGS="-Wl,-s" --enable-ftdi --enable-dummy --prefix=/d/debugger/al_openocd_win/build
+make -j4 && make install
+
