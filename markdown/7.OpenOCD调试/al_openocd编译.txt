@@ -1,11 +1,15 @@
-WSL2:
-./bootstrap && ./configure --prefix=/d/debugger/al_openocd/build --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy PKG_CONFIG_PATH=/usr/lib/pkgconfig 
-make -j4 && make install  -j多线程执行make
+WSL2（Linux）：
+安装mingw-w64和OpenOCD依赖
+sudo apt install mingw-w64
+
+编译安装
+./bootstrap && ./configure PKG_CONFIG_PATH=/usr/lib/pkgconfig LDFLAGS="-Wl,-s" --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy (--disable-werror) --prefix=/d/debugger/al_openocd_win/build --arch=x86_64 --target-os=mingw32 --cross-prefix=x86_64-w64-mingw32-
+make -j8 && make install
 
 
 
-
-MSYS2 MSYS:
+MSYS2：
+安装mingw-w64和OpenOCD依赖
 注意：MSYS2安装路径和项目路径不要有空格
 pacman -Syu
 pacman -Su
@@ -22,17 +26,16 @@ pacman -S make
 pacman -S autogen
 pacman -S unzip
 pacman -S git
-
-MSYS2 MinGW X64:
-./bootstrap && ./configure PKG_CONFIG_PATH=/usr/lib/pkgconfig LDFLAGS="-Wl,-s" --enable-ftdi --enable-dummy --prefix=/d/debugger/al_openocd_win/build (--disable-werror)
-make -j4 && make install  -j多线程执行make
-
-
-./bootstrap && ./configure --prefix=/d/debugger/al_openocd_win/build --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy PKG_CONFIG_PATH=/usr/lib/pkgconfig
-make -j4 && make install  -j多线程执行make
+使用MSYS2 MinGW X64编译安装:
+./bootstrap && ./configure PKG_CONFIG_PATH=/usr/lib/pkgconfig LDFLAGS="-Wl,-s" --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy (--disable-werror) --prefix=/d/debugger/al_openocd_win/build
+make -j8 && make install  -j多线程执行make
 
 
 
+注：
+-j：设置多线程执行make编译
+LDFLAGS="-Wl,-s"：把选项-s传递给链接器，-s表示从可执行文件中删除符号表和重定位信息，不能再用GDB调试可执行文件
+ --disable-werror：取消将警告信息当做错误显示
 
 
 
