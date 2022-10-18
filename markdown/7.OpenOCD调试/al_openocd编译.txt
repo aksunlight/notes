@@ -3,12 +3,12 @@ WSL2（Linux）：
 sudo apt install mingw-w64
 
 编译安装
-./bootstrap && ./configure PKG_CONFIG_PATH=/usr/lib/pkgconfig LDFLAGS="-Wl,-s" --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy (--disable-werror) --prefix=/d/debugger/al_openocd_win/build --arch=x86_64 --target-os=mingw32 --cross-prefix=x86_64-w64-mingw32-
+./bootstrap && ./configure PKG_CONFIG_PATH=/usr/lib/pkgconfig LDFLAGS="-Wl,-s" --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy (--disable-werror) --prefix=/d/debugger/al_openocd_win/build
 make -j8 && make install
 
 
 
-MSYS2：
+MSYS2（不推荐）：
 安装mingw-w64和OpenOCD依赖
 注意：MSYS2安装路径和项目路径不要有空格
 pacman -Syu
@@ -35,7 +35,18 @@ make -j8 && make install  -j多线程执行make
 注：
 -j：设置多线程执行make编译
 LDFLAGS="-Wl,-s"：把选项-s传递给链接器，-s表示从可执行文件中删除符号表和重定位信息，不能再用GDB调试可执行文件
- --disable-werror：取消将警告信息当做错误显示
+--disable-werror：取消将警告信息当做错误显示
+
+MSYS2无法直接使用chmod修改文件权限！！！！！！
+解决办法：修改/etc/fstab，重启即可
+
+
+
+添加用户环境变量HOME：C:\Users\xiang.weng
+重启
+删除用户环境变量HOME
+重启
+
 
 
 
