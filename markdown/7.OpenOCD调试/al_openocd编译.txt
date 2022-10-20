@@ -8,7 +8,7 @@ make -j8 && make install
 
 
 
-MSYS2（不推荐）：
+MSYS2：
 安装mingw-w64和OpenOCD依赖
 注意：MSYS2安装路径和项目路径不要有空格
 pacman -Syu
