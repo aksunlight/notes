@@ -49,6 +49,9 @@ MSYS2无法直接使用chmod修改文件权限！！！！！！
 
 
 
+PROGRAM=application/baremetal/AL9000_smc DOWNLOAD=ilm CORE=ux600fd dasm
+
+PROGRAM=application/baremetal/AL9000_smc/readld_programPage_readPage DOWNLOAD=ilm CORE=ux600fd dasm
 
 
 
