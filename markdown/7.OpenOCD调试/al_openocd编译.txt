@@ -3,7 +3,7 @@ WSL2（Linux）：
 sudo apt install mingw-w64
 
 编译安装
-./bootstrap && ./configure PKG_CONFIG_PATH=/usr/lib/pkgconfig LDFLAGS="-Wl,-s" --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy (--disable-werror) --prefix=/d/debugger/al_openocd_win/build
+./bootstrap && ./configure PKG_CONFIG_PATH=/usr/lib/pkgconfig LDFLAGS="-Wl,-s" --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy (--disable-werror) --prefix=/mnt/d/debugger/al_openocd_win/build
 make -j8 && make install
 
 

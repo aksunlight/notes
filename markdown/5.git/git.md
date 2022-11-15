@@ -42,6 +42,9 @@ git mv filenameA filenameB
 mv README.md README
 git rm README.md
 git add README
+
+# 显示提交日志
+git log -p/--patch -4
 ~~~
 
 
