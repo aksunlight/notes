@@ -47,6 +47,24 @@ git fetch <remote>
 
 # 推送数据到远程仓库
 git push <remote> <branch>
+# 推送本地的branchwx分支来更新远程仓库上的branchwx分支
+git push origin branchwx / git push origin branchwx:branchwx
+# 将本地的branchwx分支推送到远程仓库上的awesomebranch分支
+git push origin branchwe:awesomebranch
+
+# 其他协作者抓取仓库数据，并将branchwx分支合入当前分支
+git fetch origin
+git merge origin/branchwx
+# 或者在本地创建一个新的分支，并将其建立在远程跟踪分支之上
+git checkout -b branchwx origin/branchwx / git checkout --track origin/branchwx
+# 修改远程跟踪分支
+git branch -u origin/branchwx
+
+# 查找当前分支所跟踪的服务器与分支，从服务器上抓取数据然后尝试合并入那个远程分支
+git pull
+
+# 删除远程分支，从服务器上删除branchwx分支
+git push origin --delete branchwx
 
 # 查看远程仓库具体信息
 git remote shou <remote>	
@@ -77,7 +95,42 @@ git log -p/--patch -4
 
 # 重新提交
 git commit --amend
+
+# 列出标签
+git tag
+git tag -l "v1.8.5*"
 ~~~
+
+### 1.5git分支
+
+~~~
+git分支本质上仅仅是指向提交对象的可变指针
+HEAD指向当前所在的分支
+HEAD分支随着提交操作自动向前移动
+
+# 列出当前所有分支
+git branch
+
+# 创建分支
+git branch branchname
+
+# 分支切换
+git checkout branchname
+
+# 创建分支并切换过去
+git checkout -b <newbranchname>
+
+# 分支合并，先切换到需要合入的分支再合并
+git checkout master
+git merge subbranch
+
+# 删除分支
+git branch -d branchname
+
+# 查看每一个分支的最后一次提交
+git branch -v 
+~~~
+
 
 
 
