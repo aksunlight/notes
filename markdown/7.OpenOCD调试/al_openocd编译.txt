@@ -5,6 +5,7 @@ sudo apt install mingw-w64
 cp -r /mingw64/* /usr/x86_64-w64-mingw32/*
 
 编译安装
+pkg-config --variable pc_path pkg-config
 ./bootstrap && ./configure PKG_CONFIG_PATH=/usr/x86_64-w64-mingw32/lib/pkgconfig LDFLAGS="-Wl,-s" --host=x86_64-w64-mingw32 --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy (--disable-werror) --prefix=/mnt/d/debugger/al_openocd_win/build
 make -j8 && make install
 
@@ -49,6 +50,9 @@ PKG_CONFIG_PATH=/usr/x86_64-w64-mingw32/lib/pkgconfig --host=x86_64-w64-mingw32
 MSYS2无法直接使用chmod修改文件权限！！！！！！
 解决办法：修改/etc/fstab，重启即可
 
+
+
+error: expected declaration specifiers or ‘...’ before ‘gpointer’
 
 
 
