@@ -6,7 +6,8 @@ cp -r /mingw64/* /usr/x86_64-w64-mingw32/*
 
 编译安装
 pkg-config --variable pc_path pkg-config
-./bootstrap && ./configure PKG_CONFIG_PATH=/usr/x86_64-w64-mingw32/lib/pkgconfig LDFLAGS="-Wl,-s" --host=x86_64-w64-mingw32 --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy (--disable-werror) --prefix=/mnt/d/debugger/al_openocd_win/build
+./bootstrap
+./configure PKG_CONFIG_PATH=/usr/x86_64-w64-mingw32/lib/pkgconfig LDFLAGS="-Wl,-s" --host=x86_64-w64-mingw32 --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy (--disable-werror) --prefix=/mnt/d/debugger/al_openocd_win/build
 make -j8 && make install
 
 
@@ -34,7 +35,8 @@ mingw64环境的库的安装路径：/mingw64/bin、/mingw64/lib、/mingw64/incl
 mingw64环境的pkgconfig路径：/mingw64/lib/pkgconfig（环境变量PKG_CONFIG_PATH的值）
 
 使用MSYS2 MinGW X64(mingw64.exe)编译安装openocd:
-./bootstrap && ./configure LDFLAGS="-Wl,-s" --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy (--disable-werror) --prefix=/d/debugger/al_openocd_win/build
+./bootstrap
+./configure LDFLAGS="-Wl,-s" --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy (--disable-werror) --prefix=/d/debugger/al_openocd_win/build
 make -j8 && make install 
 
 
@@ -49,10 +51,6 @@ PKG_CONFIG_PATH=/usr/x86_64-w64-mingw32/lib/pkgconfig --host=x86_64-w64-mingw32
 
 MSYS2无法直接使用chmod修改文件权限！！！！！！
 解决办法：修改/etc/fstab，重启即可
-
-
-
-error: expected declaration specifiers or ‘...’ before ‘gpointer’
 
 
 
