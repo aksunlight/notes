@@ -72,6 +72,19 @@ git remote shou <remote>
 # 仓库重命名和移除
 git remote reanme oldname newname
 git remote remove oldname
+
+# 打标签
+git tag -a v1.4 -m "my version 1.4"
+git tag v1.4
+git push origin v1.4 / git push origin --tags
+
+# 查看标签
+git tag
+git show v1.4
+
+# 删除标签
+git tag -d v1.4
+git push origin --delete v1.4
 ~~~
 ### 1.4其他
 ~~~
