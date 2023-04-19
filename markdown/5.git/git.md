@@ -85,6 +85,9 @@ git show v1.4
 # 删除标签
 git tag -d v1.4
 git push origin --delete v1.4
+
+# 获取远程版本
+git fetch origin tag v1.3
 ~~~
 ### 1.4其他
 ~~~
