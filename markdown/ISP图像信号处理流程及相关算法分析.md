@@ -26,12 +26,25 @@ P_0=
 		normal, & others
 	\end{cases}
 $$
-判断出异常像素后就可以对异常值进行内插纠正了，有两种方法，一种是基于平均值，另一种是基于梯度的。基于平均值的计算方法如下如下：
+判断出异常像素后就可以对异常值进行内插纠正了，有两种方法，一种是基于平均值，另一种是基于梯度的，基于梯度的计算方法是使用更多的，我们按下图所示方向计算梯度：
+
+<img src="C:\Users\xiang.weng\AppData\Roaming\Typora\typora-user-images\image-20230519190535143.png" alt="image-20230519190535143"  />
+$$
+dv=|2P_0-P_2-P_7|\\
+dh=|2P_0-P_4-P_5|\\
+ddr=|2P_0-P_1-P_8|\\
+ddl=|2P_0-P_3-P_6|
+$$
+计算出梯度值后，输出值就是所选方向上相邻像素的平均值，计算公式如下我们按如下：
 $$
 P_{ij}=
+	\begin{cases}
+		(P_{i,j-2}+P_{i,j+2}+1)/2 & min(dv,dh,ddr,ddl)=dv\\
+		(P_{i-2,j}+P_{i+2,j}+1)/2 & min(dv,dh,ddr,ddl)=dh\\
+		(P_{i-2,j-2}+P_{i+2,j+2}+1)/2 & min(dv,dh,ddr,ddl)=ddl\\
+		(P_{i-2,j-2}+P_{i-2,j+2}+1)/2 & min(dv,dh,ddr,ddl)=ddr
+	\end{cases}
 $$
-
-
 
 
 ### 2. BLC（Block Level Compensation）
