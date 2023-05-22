@@ -80,9 +80,20 @@ $$
 3. 通过插值计算像素的校正增益。 
 4. 将校正增益乘以像素。
 
+插值计算如下：
+
+![](D:\notes\markdown\ISP图像信号处理流程及相关算法分析.assets\interpolation.png)
+$$
+\frac{Z_B-Z_A}{Y_1-Y_0}=\frac{Z_N-Z_A}{Y-Y_0}\\
+\frac{Z_C-Z_D}{Y_1-Y_0}=\frac{Z_M-Z_D}{Y-Y_0}\\
+\frac{Z_M-Z_N}{X_1-X_0}=\frac{Z-Z_N}{X-X_0}\\
+Z=(Z_C-Z_A)*X+(Z_B-Z_A)*Y+(Z_D+Z_A-Z_B-Z_C)*X*Y+Z_A
+$$
+
+
 ### 4. Auto White Balance（AWB)
 
-白平衡
+白平衡 
 
 
 
