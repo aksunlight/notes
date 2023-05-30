@@ -94,8 +94,11 @@ $$
 Z=(Z_C-Z_A)*X+(Z_B-Z_A)*Y+(Z_D+Z_A-Z_B-Z_C)*X*Y+Z_A
 $$
 
+### 4.BNR（Bayer Noise Reduce）
 
-### 4. Auto White Balance（AWB)
+拜尔域减噪，降噪
+
+### 5. Auto White Balance（AWB)
 
 白平衡是去除不真实的色偏的过程，其基本概念是“不管在任何光源下，都能将白色物体还原为白色”。对于不同的光源，因为色温的不同，在没有白平衡时，拍出来的照片往往会产生橙色、蓝色甚至绿色色偏。传统的相机白平衡需要我们给出当前光源的色温，然后相机才能根据设定的色温进行补色，实现白平衡，下图是相机设置不同色温以及自动白平衡情况下的成像效果：
 
@@ -117,11 +120,28 @@ G'=G
 $$
 除了基于灰度世界理论的方法，我们还可以使用基于色温的方法，该方法通过前期实验计算出不同色温下的R通道或B通道的增益值，然后根据实验计算出的R_gain和B_gain关系曲线求出另一个通道的增益值，得到R通道和B通道的增益值后就可以按步骤3完成白平衡了，其中环境色温往往由色温传感器采集获得。
 
+### 6.CFAI（Color Filter Array Interpolation）/ Demosaicing
+
+彩色图像的每一个像素点都需要红、绿、蓝三个色彩分量的信息，而由Bayer阵列所产生的raw图中的每一个像素点只有红或绿或黄一个色彩分量的信息，因此ISP必须估算出每个像素处缺失的另外两个颜色值，这个过程叫做色彩滤波阵列插值（CFAI），也叫去马赛克（Demosaicing）。
+
+最简单的去马赛克算法是双线性插值算法，它的基本思想是通过取相邻像素的平均值来内插每个通道中的遗漏值，我们以下图中点R13、G14和B19为例具体计算如下：
+
+<img src="D:\notes\markdown\ISP图像信号处理流程及相关算法分析.assets\demosaicing-1685416203627.png" style="zoom: 150%;" />
+$$
+R13_G=\frac{1}{4}(G8+G12+G14+G18)\\
+R13_B=\frac{1}{4}(B7+B9+B17+B19)\\
+G14_R=\frac{1}{2}(R13+R15)\\
+G14_B=\frac{1}{2}(B9+B19)\\
+B19_R=\frac{1}{4}(R13+R15+R23+R25)\\
+B19_G=\frac{1}{4}(G14+G18+G20+G24)\\
+$$
+线性插值没有考虑到各个颜色通道之间的相关性，也没有进行边缘的判断，在使用过程中容易产生伪像。2004年，Malvar提出了一种改进的线性插值算法，由于跟好的效果和相对低的复杂度，该算法广泛用于ISP处理过程中。
+
 
 
 ## RGB Domain Processing  
 
-### 5.Gamma Correction（GC）
+### 7.Gamma Correction（GC）
 
 CMOS和CCD型传感器的感光是线性的，即光强和电平之间的转换为线性关系，但人眼对自然光的感受是非线性的（呈对数关系），人眼对亮度的相应曲线如下图：
 
@@ -139,9 +159,52 @@ ISP中实现伽马校正的方法很简单，我们只需存储一张查找表�
 
 
 
+### 8.CCM（Color Correction Matrix）
 
+
+
+### 9.CSC（Color Space Conversion）
 
 # 三、参考
+
+图像处理中的微积分：
+
+对于一个二维函数f(x,y)，其偏导数为：
+$$
+\frac{\partial f}{\partial x}=\lim\limits_{h\rightarrow 0}{\frac{f(x+h,y)-f(x,y)}{h}}\\
+\frac{\partial f}{\partial y}=\lim\limits_{h\rightarrow 0}{\frac{f(x,y+h)-f(x,y)}{h}}
+$$
+因为图像时离散的二维函数，h不能无限小，图像是按照像素来离散的，最小的h就是1像素，因此，图像的偏导数变成了差分的形式：
+$$
+\frac{\partial f}{\partial x}={f(x+1,y)-f(x,y)}\\
+\frac{\partial f}{\partial y}={f(x,y+1)-f(x,y)}
+$$
+根据梯度的定义，图像的垂直和水平方向的梯度为：
+$$
+g_x=\frac{\partial f}{\partial x}={f(x+1,y)-f(x,y)}\\
+g_y=\frac{\partial f}{\partial y}={f(x,y+1)-f(x,y)}
+$$
+图像中某一像素点(x,y)处的梯度值为：
+$$
+M(x,y)=mag(\nabla f)=\sqrt{g_x^2+g_y^2}\approx|g_x|+|g_y|
+$$
+根据图像的一阶偏导，可以求出二阶偏导如下：
+$$
+\frac{\partial^2f}{\partial x^2}={f_x'(x+1,y)-f_x'(x,y)}=f((x+1)+1,y)-f((x+1),y)-f(x+1,y)+f(x,y)=f(x+2,y)-2f(x+1,y)+f(x,y)\\
+\frac{\partial^2f}{\partial y^2}={f_y'(x,y+1)-f_y'(x,y)}=f(x,(y+1)+1)-f(x,(y+1))-f(x,y+1)+f(x,y)=f(x,y+2)-2f(x,y+1)+f(x,y)\\
+$$
+
+即：
+$$
+\frac{\partial^2f}{\partial x^2}=f(x+2,y)-2f(x+1,y)+f(x,y)\\
+\frac{\partial^2f}{\partial y^2}=f(x,y+2)-2f(x,y+1)+f(x,y)
+$$
+令x=x-1，y=y-1得到：
+$$
+\frac{\partial^2f}{\partial x^2}=f(x+1,y)+f(x-1,y)-2f(x,y)\\
+\frac{\partial^2f}{\partial y^2}=f(x,y+1)+f(x,y-1)-2f(x,y)
+$$
+
 
 开源ISP项目：
 
