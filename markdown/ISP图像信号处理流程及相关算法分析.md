@@ -194,19 +194,96 @@ $$
 
 ISP中实现伽马校正的方法很简单，我们只需存储一张查找表（LUT）即可，表中存储着各个灰阶值对应的伽马校正值，ISP只需要把查表输出校正值即可。
 
-
-
 ### 8.CCM（Color Correction Matrix）
 
+CCM指的是颜色校正矩阵，由于sensor的R/G/B响应曲线和人眼的R/G/B响应曲线是不一致的，因此需要使用CCM校正矩阵消除这种颜色误差。下图显示了颜色校正之前和颜色校正之后的图像：
 
+<img src="D:\notes\markdown\ISP图像信号处理流程及相关算法分析.assets\CCM_1.jpg"  />
+
+![](D:\notes\markdown\ISP图像信号处理流程及相关算法分析.assets\CCM_2.jpg)
+
+为了达到上述的要求，我们可以理解为人眼对物体感受的颜色是我们的目标，那么就需要将sensor感光数据经过某种变换达到我们的目标。假设人眼能感受到的颜色种类有m种，那么自然界的颜色就可以表示为一个3Xm的矩阵，同理sensor对自然界的感光也可以得到一个3Xm的矩阵。我们需要做的就是将右侧sensor感光的数据转换到左侧人眼感光的数据上来。
+$$
+\left[
+	\begin{matrix}
+	R_1 & R_1 & ... & R_m\\
+	G_2 & G_2 & ... & G_m\\
+	B_3 & B_3 & ... & B_m\\
+	\end{matrix}
+\right]
+<==
+\left[
+	\begin{matrix}
+	R'_1 & R'_1 & ... & R'_m\\
+	G'_2 & G'_2 & ... & G'_m\\
+	B'_3 & B'_3 & ... & B'_m\\
+	\end{matrix}
+\right]
+$$
+
+
+为了达到上述要求，在实际操作中，我们需要使用CCM把sensor RGB色彩空间转为sRGB色彩空间。下图可知，由sensor RGB空间分别经过 ![M^{2}](https://www.zhihu.com/equation?tex=M%5E%7B2%7D) 和 ![M^{1}](https://www.zhihu.com/equation?tex=M%5E%7B1%7D) 以及![\gamma](https://www.zhihu.com/equation?tex=%5Cgamma) 校正可以实现到sRGB色彩空间的转换。sensor RGB空间我们称之为“源色彩空间”，非线性sRGB空间称之为“目标颜色空间”，目前，我们能够得到源色彩空间的“不饱和图”对应的24色色快，也有非线性sRGB空间的“饱和图”对应的24色色快，而 ![M^{1}](https://www.zhihu.com/equation?tex=M%5E%7B1%7D) 和 ![\gamma](https://www.zhihu.com/equation?tex=%5Cgamma) 的数值是已知的，那么，只需要将非线性sRGB空间的图片经过反 ![\gamma](https://www.zhihu.com/equation?tex=%5Cgamma) 校正然后再转换到XYZ空间，那时就可以和sensorRGB数值联立从而求得矩阵 ![M^{2}](https://www.zhihu.com/equation?tex=M%5E%7B2%7D) ，继而求得 ![M](https://www.zhihu.com/equation?tex=M) 。在这里，矩阵 ![M](https://www.zhihu.com/equation?tex=M) 就是所求的颜色校正矩阵。
+
+<img src="D:\notes\markdown\ISP图像信号处理流程及相关算法分析.assets\CCM_M.png"  />
+
+具体计算CCM矩阵的方法有多种，本文介绍两个典型算法，多项式拟合和三维查表法（3D-LUT）。
+
+多项式拟合的方法具体做法是：
+
+1. 对非线性sRGB做反Gamma校正得到线性sRGB，![sRGB_{linearity}](https://www.zhihu.com/equation?tex=sRGB_%7Blinearity%7D) = ![(sRGB_{nonlinearity})^{\gamma}](https://www.zhihu.com/equation?tex=%28sRGB_%7Bnonlinearity%7D%29%5E%7B%5Cgamma%7D)
+2. 将线性sRGB转换至CIE XYZ空间，![XYZ_{m*n}](https://www.zhihu.com/equation?tex=XYZ_%7Bm%2An%7D) = ![sRGB_{m*n}](https://www.zhihu.com/equation?tex=sRGB_%7Bm%2An%7D) * ![(M_{n*n}^{1})^{-1}](https://www.zhihu.com/equation?tex=%28M_%7Bn%2An%7D%5E%7B1%7D%29%5E%7B-1%7D)
+
+3. 由于![sensorRGB_{m*n}*M_{n*n}^{2}=XYZ_{m*n},](https://www.zhihu.com/equation?tex=sensorRGB_%7Bm%2An%7D%2AM_%7Bn%2An%7D%5E%7B2%7D%3DXYZ_%7Bm%2An%7D%2C)其中，m是色块的大小，如果取24色卡，则m=24，n为每个色块的平均颜色值，n=3，显然m>n，这是过定问题，可得，![M_{n*n}^{2}=(sensorRGB^{T}*sensorRGB)^{-1}*(sensorRGB^{T}*XYZ)](https://www.zhihu.com/equation?tex=M_%7Bn%2An%7D%5E%7B2%7D%3D%28sensorRGB%5E%7BT%7D%2AsensorRGB%29%5E%7B-1%7D%2A%28sensorRGB%5E%7BT%7D%2AXYZ%29)
+
+4. 由m1、m2求得：![M=M^{2}*M^{1}](https://www.zhihu.com/equation?tex=M%3DM%5E%7B2%7D%2AM%5E%7B1%7D)
+
+三维查表法很简单，就是将两个矩阵表示的颜色都通过一张表来表示对应的关系，那么进来一个颜色就可以通过查表快速得到想要的颜色。
 
 ### 9.CSC（Color Space Conversion）
 
+CSC即色彩空间转换，通过一些线性变化，将原本图像的颜色空间转换到其他的颜色空间，常见的有RGB2YUV，RGB2SV等等，但是通常在ISP的Pipeline中用到的CSC转换只有RGB2YUV，YUV色彩空间中，“Y”表示明亮度（Luminance、Luma），“U”和“V”则是色度、浓度，ISP要实现RGB2YUV转换就必定会有一个转换公式，因为转换过程中采用的标准不同，所有转换公式也有所区别。由于CSC算法固定，所以它一般固化在ISP芯片中。
+
+Pipeline中需要这么一个转换将RGB转为YUV主要有三个原因：
+
+1. YUV是早期欧洲定义的一种信号格式，主要是为了解决黑白电视和彩色电视过渡时期的信号兼容问题，黑白电视只需要亮度值，不需要彩色信号，而彩色电视既需要亮度信号也需要色彩信号，所以如果直接使用RGB就会带来兼容问题，而采用YUV信号，黑白电视不处理彩色信号即可；
+2. 可以将Y和UV分开处理，即将亮度信号和色度信号分开处理，这样更符合HVS，因为本专题前面的博文也提到过HVS中人眼对亮度信号更明高，对色度信号相对不明感，那么在去噪等一些处理的时候就可以针对不同层面的信号做不同强度的处理，从而最大程度的保护图像效果；
+3. 为后续的数据压缩做准备，因为通常现在用的多的MJPG和网络传输用的H264和H265等信号都是基于YUV信号的基础上做进一步的数据压缩得来的
+
+# 三、扩展与参考
+
+## AI在去噪和hdr的应用
 
 
-# 三、参考
 
-图像处理中的微积分：
+## 色彩的基本理论
+
+### 人眼对色彩的感知
+
+人眼之所以能感受到自然界的颜色是因为人眼的视锥细胞在起作用，人眼主要通过三种视锥细胞感受三种不同波长的光从而感受颜色。430nm波长的光被视为蓝色，主要激活S型锥形细胞；大多数波长以550nm为中心的光被视为绿色，主要刺激M型锥形细胞；600nm波长或更长波长的光被视为红色，主要刺激L型锥形细胞。正是如此，人类才能够产生各种颜色的感觉。如图所示是人眼感受不同波长的反应曲线，分别对应三种不同的波长，所以通常用RGB三原色来表示颜色：
+
+<img src="D:\notes\markdown\ISP图像信号处理流程及相关算法分析.assets\sensitivity-1685673123148.png" style="zoom:80%;" />
+
+### CIE RGB
+
+<img src="D:\notes\markdown\ISP图像信号处理流程及相关算法分析.assets\CIE_RGB.png"  />
+
+为了模拟人眼对色彩的感知，人们进行了色彩匹配实验，该实验原理如上图所示，右侧有两个屏幕，一侧有一个可以改变波长的光源，一侧是固定三种波长（红绿蓝）的光源，然后人眼通过一个角度去看这两个屏幕。f光源改变不同的波长呈现出不同的颜色，然后通过P1，P2，P3三个波长的光源不同的强度的混合，使得人眼感受到两个屏幕的颜色一致，然后记录下此时的三色值，那么该三色值就表示f测波长对应的颜色值。通过该实验就得到了CIE RGB颜色空间的数据如下图。
+
+![](D:\notes\markdown\ISP图像信号处理流程及相关算法分析.assets\CIE_RGB_data.png)
+
+从图中可以看到CIE RGB有数据是负数，这个是因为某个波长颜色的光通过P1，P2，P3在一侧混合无法得到，那么就需要将某个光源放到f测去才能到达这种效果，那么此时就相当于对改颜色做了减法，那么就出现了负数。上图CIE RGB空间为三维的不方便操作，那么就对RGB做归一化，使得R+G+B=1，那么一直其中两个颜色就可以得到第三个颜色，从而将三维空间降维到二维方便操作，归一化结果如下图。
+
+![](D:\notes\markdown\ISP图像信号处理流程及相关算法分析.assets\CIE_RGB_normalized.png)
+
+### CIE XYZ
+
+由于CIE RGB会出现负数，不适合理解和操作，所以人为定义一组新的三原色XYZ，实现通过整数表示所有颜色。经过一系列的坐标变换之后就可以重新得到一个XYZ的颜色空间，同理经过归一化之后可以投影到二维空间方便理解。CIE XYZ色彩空间如下图。
+
+![](D:\notes\markdown\ISP图像信号处理流程及相关算法分析.assets\CIE_XYZ_1.png)
+
+![](D:\notes\markdown\ISP图像信号处理流程及相关算法分析.assets\CIE_XYZ_2.png)
+
+## 图像处理中的微积分
 
 对于一个二维函数f(x,y)，其偏导数为：
 $$
@@ -248,12 +325,11 @@ $$
 \frac{\partial^2f}{\partial x^2}+\frac{\partial^2f}{\partial y^2}=f(x+1,y)+f(x-1,y)+f(x,y+1)+f(x,y-1)-4f(x,y)
 $$
 
-
-开源ISP项目：
+## 开源ISP项目
 
 [openISP(python)](https://github.com/cruxopen/openISP)、[fast-openISP(python)](https://github.com/QiuJueqin/fast-openISP)、[ISP-pipeline-hdrplus(c/c++)](https://github.com/jhfmat/ISP-pipeline-hdrplus)、[xk-isp(c/c++)](https://github.com/T-head-Semi/open_source_ISP)
 
-ISP学习资料：
+## ISP学习资料
 
 [awesome-ISP](https://github.com/starkfan007/awesome-ISP)、[ISPAlgorithmStudy](https://gitee.com/wtzhu13/ISPAlgorithmStudy)
 
