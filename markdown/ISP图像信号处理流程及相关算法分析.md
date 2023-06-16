@@ -335,7 +335,7 @@ Q_sat: Well Capacity；i_dc: 底电流；t_int: 曝光时间；σ:噪声。
 
 5. 局部适应（local adaption）。这是种仿人眼的设计，人眼会针对局部的图像特点进行自适应，既能够增加局部的对比度，同时保留大动态范围。这种算法比较复杂，有很多论文单独讨论。目前在sensor端还没有使用这种技术，在ISP和后处理这种方法已经得到了非常好的应用。
 
-以上方法中，方法1和方法4都需要传感器有相应的特性，而方法2、3和5主要通过ISP端配合实现。
+以上方法中，方法1和方法4都需要传感器有相应的特性，而方法2、3和5主要通过ISP端配合实现。目前，主流的HDR方法是多帧融合曝光的方法，在这方面的代表是谷歌的HDR+技术。
 
 ## NR
 
@@ -369,11 +369,13 @@ Q_sat: Well Capacity；i_dc: 底电流；t_int: 曝光时间；σ:噪声。
 
    参考：[DnCNN / FFDNet / CBDNet / RIDNet / PMRID / SID](https://blog.csdn.net/weixin_44580210/article/details/113828226)
 
+目前，基于CNN网络的降噪算法已经优于传统的算法。
+
 # 四、扩展与参考
 
 ## AI在去噪和HDR的应用
 
-HDR处理还是以多帧曝光融合的方法为主，而在降噪方面，基于CNN神经网络的方法的效果已经超过了传统的算法。
+HDR处理还是以多帧曝光融合的方法为主，在这方面的代表是谷歌的HDR+技术。而在降噪方面，基于CNN神经网络的方法的效果已经超过了传统的算法。
 
 ## 色彩的基本理论
 
@@ -492,5 +494,5 @@ $$
 
 ## ISP学习资料
 
-[awesome-ISP](https://github.com/starkfan007/awesome-ISP)、[ISPAlgorithmStudy](https://gitee.com/wtzhu13/ISPAlgorithmStudy)、[光、颜色和色度图](https://zhuanlan.zhihu.com/p/129095380)、[Understanding ISP Pipeline](https://zhuanlan.zhihu.com/p/98820927)、[Understanding ISP Pipeline - Noise Reduction](https://zhuanlan.zhihu.com/p/102423615)
+[awesome-ISP](https://github.com/starkfan007/awesome-ISP)、[ISPAlgorithmStudy](https://gitee.com/wtzhu13/ISPAlgorithmStudy)、[光、颜色和色度图](https://zhuanlan.zhihu.com/p/129095380)、[Understanding ISP Pipeline](https://zhuanlan.zhihu.com/p/98820927)、[Understanding ISP Pipeline - Noise Reduction](https://zhuanlan.zhihu.com/p/102423615)、[Google Camera 发展梳理](https://zhihuhuhu.blogspot.com/2018/11/google-camera-development-review.html)
 
