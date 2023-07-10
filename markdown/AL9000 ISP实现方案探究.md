@@ -2,6 +2,12 @@
 
 ## 一、爱芯元智AX620芯片
 
+AX620A是爱芯元智第二代自研边缘侧智能视觉芯片，搭载四核Cortex-A7 CPU以及14.4TOPs@INT4或3.6TOPs@INT8的高算力NPU。该芯片不仅能能够满足传统智慧城市、智能家居应用需求，超低功耗还能够满足电池应用方案的功耗需求，兼顾AIoT、手机等应用场景，尤其在快速唤醒类产品领域拥有优越表现。
+
+AX620A产品规格：
+
+![](D:\notes\markdown\AL9000 ISP实现方案探究.assets\AI_ISP_AX620A.png)
+
 AI ISP Pipeline：
 
 <img src="D:\notes\markdown\AL9000 ISP实现方案探究.assets\AI_ISP_Pipeline.png"  />
@@ -68,11 +74,64 @@ Xfuse Camera Control App：
 
 Phoenix HDR ISP效果：
 
- ![](D:\notes\markdown\AL9000 ISP实现方案探究.assets\Phoenix_ISP_LDR.png)
+![](D:\notes\markdown\AL9000 ISP实现方案探究.assets\Phoenix_ISP_LDR.png)
 
 ![](D:\notes\markdown\AL9000 ISP实现方案探究.assets\Phoenix_ISP_HDR.png)
 
 ## 三、xkISP
+
+xkISP是基于Xilinx开发工具的开源图像信号处理器 (ISP)，由复旦大学VIP实验室和阿里巴巴DAMO CTL实验室联合开发。到目前为止，xkISP支持处理任意分辨率的12位原始图像数据。
+
+xkISP Pipeline：
+
+![](D:\notes\markdown\AL9000 ISP实现方案探究.assets\xkISP_Pipeline.png)
+
+xkISP通过使用Vitis HLS将ISP各个模块源代码综合并进行验证，同时，也可将验证通过后的RTL代码导出并封装成对应IP供给后续Vivado设计使用。该项目也可以直接使用Vitis GUI进行ISP全流程集成验证。
+
+项目文件目录如下：
+
+```
+xkISP
+├─fpga
+│      host.cpp
+│      top.cpp
+│      top.h
+│      xcl2.cpp
+│      xcl2.h
+│
+├─src
+│    isp_top.h
+│    file_define.h
+│    "*module*".cpp
+│    "*module*".h
+│    ...
+│
+├─tb
+│     tb_"*module*".cpp
+│    ...
+│
+├─tcl
+│      Makefile
+│      "*module*".tcl
+│      "*module*"_directives.tcl
+│    ...
+│
+├─tv
+│     Makefile
+│     hls_param.txt
+│     input.raw
+│     isp
+│     readme_for_tv
+├─  LICENSE
+├─  setup_env.sh
+└─  README.md
+```
+
+rawdns模块ip：
+
+![](D:\notes\markdown\AL9000 ISP实现方案探究.assets\xkISP_rawdns_ip.png)
+
+
 
 
 

@@ -494,5 +494,5 @@ $$
 
 ## ISP学习资料
 
-[awesome-ISP](https://github.com/starkfan007/awesome-ISP)、[ISPAlgorithmStudy](https://gitee.com/wtzhu13/ISPAlgorithmStudy)、[光、颜色和色度图](https://zhuanlan.zhihu.com/p/129095380)、[Understanding ISP Pipeline](https://zhuanlan.zhihu.com/p/98820927)、[Understanding ISP Pipeline - Noise Reduction](https://zhuanlan.zhihu.com/p/102423615)、[Google Camera 发展梳理](https://zhihuhuhu.blogspot.com/2018/11/google-camera-development-review.html)
+[awesome-ISP](https://github.com/starkfan007/awesome-ISP)、[ISPAlgorithmStudy](https://gitee.com/wtzhu13/ISPAlgorithmStudy)、[光、颜色和色度图](https://zhuanlan.zhihu.com/p/129095380)、[Understanding ISP Pipeline](https://zhuanlan.zhihu.com/p/98820927)、[Understanding ISP Pipeline - Noise Reduction](https://zhuanlan.zhihu.com/p/102423615)、[Google Camera 发展梳理](https://zhihuhuhu.blogspot.com/2018/11/google-camera-development-review.html)、[VIP Lab@Fudan](https://www.zhihu.com/column/viplab)
 
