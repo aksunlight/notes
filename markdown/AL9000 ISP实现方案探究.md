@@ -137,6 +137,8 @@ rawdns模块ip：
 
 ## 四、补充
 
+### 1.降噪与HDR
+
 降噪(Noise Reduction)：目的在于去除图像噪点，具体来说它分为2DNR和3DNR两种类型，2DNR即空域降噪，它只分析和处理一帧图形内部的噪声；3DNR即时域降噪，它主要利用多帧图像在时间上的相关性实现降噪。
 
 <img src="D:\notes\markdown\AL9000 ISP实现方案探究.assets\Noise.png" style="zoom: 50%;" />
@@ -164,4 +166,47 @@ hdr/histogram equalization/tone mapping：三者目的都是调整图片亮度�
 图像质量评价：MSE，RMSE，PSNR，SSIM
 
 <img src="D:\notes\markdown\AL9000 ISP实现方案探究.assets\judge.png"  />
+
+### 2.Vitis HLS
+
+HLS即High-level Synthesis（高层次综合），Vitis HLS工具会将C或C++函数综合到RTL代码中，以便在Versal自适应SoC、Zynq MPSoC或AMD FPGA器件的可编程逻辑 (PL) 区域内实现。设计师需要以C/C++创建高层次的算法宏架构，在高层次上并不需要制定微架构决策，如创建状态机、数据路径、寄存器流水线等，这些具体细节可以留给 HLS工具，设计者只需要提供简单输入约束（如时钟速度、性能编译指示、目标器件等）即可生成经过最优化的 RTL。
+
+使用HLS的开发步骤如下：
+
+1. 基于设计原则建立算法架构
+2. （C 语言仿真）利用C/C++测试激励文件验证C/C++代码
+3. （C 语言综合）使用HLS生成RTL
+4. （协同仿真）验证使用C++输出生成的内核
+5. （分析）复查HLS综合报告和协同仿真报告，并进行分析
+6. 重新运行前述步骤直至满足性能目标为止。
+
+使用HLS进行验证的实例如下：
+
+![](D:\notes\markdown\AL9000 ISP实现方案探究.assets\Vitis_HLS_1.png)
+
+![](D:\notes\markdown\AL9000 ISP实现方案探究.assets\Vitis_HLS_2.png)
+
+![](D:\notes\markdown\AL9000 ISP实现方案探究.assets\Vitis_HLS_3.png)
+
+### 3.Vitis
+
+Vitis工具支持的硬件：
+
+
+
+## 五、参考
+
+
+
+
+
+
+
+
+
+## 五、参考
+
+[Vitis高层次综合用户指南](https://docs.xilinx.com/r/zh-CN/ug1399-vitis-hls/)、[高层次综合技术原理浅析](https://support.xilinx.com/s/article/1186018?language=zh_CN)
+
+[xkISP](https://github.com/openasic-org/xkISP)、[fast-openISP](https://github.com/QiuJueqin/fast-openISP)
 
