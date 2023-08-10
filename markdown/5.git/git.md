@@ -51,6 +51,8 @@ git push <remote> <branch>
 git push origin branchwx / git push origin branchwx:branchwx
 # 将本地的branchwx分支推送到远程仓库上的awesomebranch分支
 git push origin branchwe:awesomebranch
+例子：
+git push origin nand_bringup:nand_bringup
 
 # 其他协作者抓取仓库数据，并将branchwx分支合入当前分支
 git fetch origin
@@ -147,10 +149,6 @@ git branch -d branchname
 git branch -v 
 ~~~
 
+## 撤销上一次提交
 
-
-
-
-
-
-
+git reset HEAD~
