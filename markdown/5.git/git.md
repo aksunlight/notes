@@ -15,6 +15,8 @@ git config --global color.ui auto
 
 git add *.cpp
 git add ./src/
+git add .	# 添加新文件和编辑过的文件但不包括删除的文件
+git add -u	# 添加编辑过或者删除的文件
 git add LICENSE
 git commit -m 'initial my project'
 ~~~
@@ -39,8 +41,6 @@ git commit -a -m 'first commit'
 
 ### 1.3和远程仓库交互
 ~~~
-注意：如果你使用clone命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以origin为简写。默认情况下，git clone 命令会自动设置本地 master 分支跟踪克隆的远程仓库的 master 分支（或其它名字的默认分支）。
-
 # 查看远程仓库，该命令列出远程仓库服务器的简写
 cd projectpath
 git remote / git remote -v
@@ -57,8 +57,6 @@ git push <remote> <branch>
 git push origin branchwx / git push origin branchwx:branchwx
 # 将本地的branchwx分支推送到远程仓库上的awesomebranch分支
 git push origin branchwe:awesomebranch
-例子：
-git push origin nand_bringup:nand_bringup
 
 # 其他协作者抓取仓库数据，并将branchwx分支合入当前分支
 git fetch origin
@@ -111,8 +109,12 @@ git rm README.md
 git add README
 # 取消暂存
 git reset filename
+# 清空暂存器
+git reset .
 # 取消对文件的修改
 git checkout -- filename
+# 取消所有兑文件的修改
+git checkout -- .
 
 # 显示提交日志
 git log -p/--patch -4
@@ -195,5 +197,21 @@ doc/*.txt
 
 # 忽略 doc/ 目录及其所有子目录下的 .pdf 文件
 doc/**/*.pdf
+```
+
+### 1.7.将本地仓库上传到服务器
+
+```
+# 在服务器创建仓库
+cd /path/
+git init --bare xxx.git
+--bare表示建立的是空的仓库，仓库地址为user@ip:/path/xxx.git
+
+# 将本地的仓库上传
+git remote add origin usr@ip:/path/xxx.git
+添加一个新的远程仓库，给这个远程仓库定名为origin，远程仓库的URL地址为usr@ip:/path/xxx.git
+
+git push origin master
+上传本地分支到远程仓库
 ```
 
