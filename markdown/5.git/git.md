@@ -73,7 +73,7 @@ git pull
 git push origin --delete branchwx
 
 # 查看远程仓库具体信息
-git remote shou <remote>	
+git remote show <remote>	
 
 # 仓库重命名和移除
 git remote reanme oldname newname
@@ -113,7 +113,7 @@ git reset filename
 git reset .
 # 取消对文件的修改
 git checkout -- filename
-# 取消所有兑文件的修改
+# 取消所有对文件的修改
 git checkout -- .
 
 # 显示提交日志

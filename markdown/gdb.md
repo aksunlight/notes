@@ -18,3 +18,16 @@
 
 
 
+Linux进程：
+
+top
+
+ps id pid
+
+ps -aux |grep -v grep|grep pid
+
+
+
+GPU显卡：
+
+watch -n 0.25 nvidia-smi #每0.25s刷新一次
