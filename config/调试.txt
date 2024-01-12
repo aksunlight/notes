@@ -1,0 +1,5 @@
+1.退出调试再build： ./build.sh al9000_psjtag
+2.调试：./ftdi_main.exe -debug=2
+3.read id命令：id
+3.read命令测试：read addr
+4.write命令测试：write data addr

@@ -1,0 +1,19 @@
+安装WSL
+	https://zhuanlan.zhihu.com/p/146545159
+	https://docs.microsoft.com/zh-cn/windows/wsl/install-manual
+	步骤 1 - 启用适用于 Linux 的 Windows 子系统
+	dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+	步骤 2 - 启用虚拟机功能
+	dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+	步骤 3 - 下载 Linux 内核更新包
+	https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi
+	步骤 4 - 将 WSL 2 设置为默认版本
+	wsl --set-default-version 2
+	wsl --set-version Ubuntu-xxxx 2
+	步骤 5 - 安装所选的 Linux 分发
+进入已安装的WSL系统
+	cmd或powershell下输入bash
+进入WSL系统目录
+	进入WSL发行版转到home目录再输出explorer.exe .
+进入vscode编辑项目
+	在开发板的命令行中执行code .

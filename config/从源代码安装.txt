@@ -1,0 +1,5 @@
+1. 安装GCC：sudo apt install build-essential
+2. ./configure：检测你的安装平台的目标特征
+3. make：编译
+4. make install：安装软件到指定位置
+5. make clean：清除安装过程中的临时文件
