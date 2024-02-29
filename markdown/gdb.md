@@ -31,3 +31,20 @@ ps -aux |grep -v grep|grep pid
 GPU显卡：
 
 watch -n 0.25 nvidia-smi #每0.25s刷新一次
+
+
+
+VNC远程桌面：
+
+服务端设置：vncserver -geometry 1920x1080 :27
+
+​					   vncserver -localhost :27
+
+
+
+pip安装包导出：
+
+pip list --format=freeze > requirements.txt
+
+pip freeze >requirements.txt
+

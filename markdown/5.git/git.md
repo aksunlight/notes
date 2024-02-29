@@ -186,7 +186,13 @@ git reset --hard [commit]
 # 但跟踪所有的 lib.a，即便你在前面忽略了 .a 文件
 !lib.a
 
-# 只忽略当前目录下的 TODO 文件，而不忽略 subdir/TODO
+# 忽略所有名字叫做test的目录及其所有内容
+test/
+
+# 试图在一个被忽略的目录内排除一个文件是行不通的
+!test/example.md
+
+# 只忽略根目录下的 TODO 文件，而不忽略 subdir/TODO
 /TODO
 
 # 忽略任何目录下名为 build 的文件夹
