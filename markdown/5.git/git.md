@@ -216,6 +216,9 @@ git init --bare xxx.git
 # 将本地的仓库上传
 git remote add origin usr@ip:/path/xxx.git
 添加一个新的远程仓库，给这个远程仓库定名为origin，远程仓库的URL地址为usr@ip:/path/xxx.git
+或
+git remote set-url origin usr@ip:/path/xxx.git
+修改远程仓库origin，远程仓库的URL修改为usr@ip:/path/xxx.git
 
 git push origin master
 上传本地分支到远程仓库
