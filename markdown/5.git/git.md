@@ -35,6 +35,9 @@ git status / git status -s/git status --short
 git diff
 # 比对已暂存文件与最后一次提交的文件差异，查看已暂存的将要添加到下次提交里的内容
 git diff --staged
+# 显示某个文件在某两次提交之间的差异
+git diff <提交1/哈希值1>..<提交2/哈希值2> -- filename
+
 git commit -m 'xxxx'
 git commit -a -m 'first commit'	
 ~~~
@@ -68,6 +71,9 @@ git branch -u origin/branchwx
 
 # 查找当前分支所跟踪的服务器与分支，从服务器上抓取数据然后尝试合并入那个远程分支
 git pull
+
+# 删除分支
+git branch -d branchname
 
 # 删除远程分支，从服务器上删除branchwx分支
 git push origin --delete branchwx
@@ -116,8 +122,12 @@ git checkout -- filename
 # 取消所有对文件的修改
 git checkout -- .
 
-# 显示提交日志
+# 显示最近四次的提交美容
 git log -p/--patch -4
+# 显示文件的提交美容
+git log -p/--patch filename
+# 显示某次具体的提交
+git show <commit_hash>
 
 # 重新提交
 git commit --amend
@@ -140,6 +150,10 @@ git branch
 # 创建分支
 git branch branchname
 
+# 创建空白分支
+git checkout -orphan emptybranch
+git rm -rf .
+
 # 分支切换
 git checkout branchname
 
@@ -152,6 +166,9 @@ git merge subbranch
 
 # 删除分支
 git branch -d branchname
+
+# 删除远程分支，从服务器上删除branchwx分支
+git push origin --delete branchwx
 
 # 查看每一个分支的最后一次提交
 git branch -v 
