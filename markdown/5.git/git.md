@@ -17,7 +17,7 @@ git add *.cpp
 git add ./src/
 git add .	# 添加新文件和编辑过的文件但不包括删除的文件
 git add -u	# 添加编辑过或者删除的文件
-git add LICENSE
+
 git commit -m 'initial my project'
 ~~~
 
@@ -30,7 +30,7 @@ echo '# test line' >> CONTRIBUTING.md
 注意：如果你使用clone命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以origin为简写。默认情况下，git clone 命令会自动设置本地 master 分支跟踪克隆的远程仓库的 master 分支（或其它名字的默认分支）。
 
 # 查看已暂存的修改和未暂存的修改
-git status / git status -s/git status --short
+git status / git status -s / git status --short
 # 比较工作目录中当前文件和暂存区域快照之间的差异，就是修改之后还没有暂存起来的变化内容
 git diff
 # 比对已暂存文件与最后一次提交的文件差异，查看已暂存的将要添加到下次提交里的内容
@@ -72,7 +72,7 @@ git branch -u origin/branchwx
 # 查找当前分支所跟踪的服务器与分支，从服务器上抓取数据然后尝试合并入那个远程分支
 git pull
 
-# 删除分支
+# 删除分支(不能在要删除夫人分支上操作)
 git branch -d branchname
 
 # 删除远程分支，从服务器上删除branchwx分支
