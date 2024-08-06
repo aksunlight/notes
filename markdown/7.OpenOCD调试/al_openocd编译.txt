@@ -5,11 +5,12 @@ sudo apt install mingw-w64
 cp -r /mingw64/* /usr/x86_64-w64-mingw32/*
 
 编译安装
+sudo apt install pkg-config
 pkg-config --variable pc_path pkg-config
+cd ~/al_openocd
 ./bootstrap
-./configure PKG_CONFIG_PATH=/usr/x86_64-w64-mingw32/lib/pkgconfig LDFLAGS="-Wl,-s" --host=x86_64-w64-mingw32 --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy (--disable-werror) --prefix=/mnt/d/debugger/al_openocd_win/build
+./configure --prefix=/mnt/d/debugger/al_openocd_win/build PKG_CONFIG_PATH=/usr/x86_64-w64-mingw32/lib/pkgconfig LDFLAGS="-Wl,-s" --host=x86_64-w64-mingw32 --enable-fdti --enable-ftdi-oscan1 --enable-jtag_vpi
 make -j8 && make install
-
 
 
 
@@ -36,7 +37,7 @@ mingw64环境的pkgconfig路径：/mingw64/lib/pkgconfig（环境变量PKG_CONFI
 
 使用MSYS2 MinGW X64(mingw64.exe)编译安装openocd:
 ./bootstrap
-./configure LDFLAGS="-Wl,-s" --enable-fdti --enable-jlink --enable-ftdi-oscan1 --enable-dummy (--disable-werror) --prefix=/d/debugger/al_openocd_win/build
+./configure LDFLAGS="-Wl,-s" --prefix=/d/debugger/al_openocd_win/build --enable-fdti  --enable-ftdi-oscan1 --enable-jtag_vpi
 make -j8 && make install 
 
 
