@@ -18,7 +18,7 @@ git add ./src/
 git add .	# 添加新文件和编辑过的文件但不包括删除的文件
 git add -u	# 添加编辑过或者删除的文件
 
-git commit -m 'initial my project'
+git commit -m 'initial my project'(-s选项可以用来添加"Signed-off-by"声明)
 ~~~
 
 ### 1.2克隆现有仓库
@@ -29,17 +29,18 @@ git clone <url> <set repository name>
 echo '# test line' >> CONTRIBUTING.md
 注意：如果你使用clone命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以origin为简写。默认情况下，git clone 命令会自动设置本地 master 分支跟踪克隆的远程仓库的 master 分支（或其它名字的默认分支）。
 
-# 查看已暂存的修改和未暂存的修改
+# 查看分支状态，包括未暂存的修改/未跟踪的文件等
 git status / git status -s / git status --short
 # 比较工作目录中当前文件和暂存区域快照之间的差异，就是修改之后还没有暂存起来的变化内容
 git diff
-# 比对已暂存文件与最后一次提交的文件差异，查看已暂存的将要添加到下次提交里的内容
+# 比对已暂存文件与最后一次提交的文件差异，就是查看已暂存的将要添加到下次提交里的内容
 git diff --staged
 # 显示某个文件在某两次提交之间的差异
 git diff <提交1/哈希值1>..<提交2/哈希值2> -- filename
+git diff abc123..def456 -- example.txt
 
-git commit -m 'xxxx'
-git commit -a -m 'first commit'	
+git commit -m 'xxxx'(-s选项可以用来添加"Signed-off-by"声明)
+git commit -a -m 'first commit'(-s选项可以用来添加"Signed-off-by"声明)
 ~~~
 
 ### 1.3和远程仓库交互
@@ -53,28 +54,30 @@ git remote add <shortname> <url>
 
 # 从远程仓库中抓取数据，它不会自动合并或修改当前工作
 git fetch <remote>
+# 从远程仓库中抓取数据，并将branchwx分支合入当前分支
+git fetch origin
+git merge origin/branchwx
+# 查找当前分支所跟踪的服务器与分支，从服务器上抓取数据然后尝试合并入本地分支
+git pull
 
 # 推送数据到远程仓库
 git push <remote> <branch>
 # 推送本地的branchwx分支来更新远程仓库上的branchwx分支
 git push origin branchwx / git push origin branchwx:branchwx
 # 将本地的branchwx分支推送到远程仓库上的awesomebranch分支
-git push origin branchwe:awesomebranch
+git push origin branchwx:awesomebranch
+# 在远程仓库创建同名分支，将本地分支推送上去并跟踪它
+git push --set-upstream origin branchwx
 
-# 其他协作者抓取仓库数据，并将branchwx分支合入当前分支
-git fetch origin
-git merge origin/branchwx
 # 或者在本地创建一个新的分支，并将其建立在远程跟踪分支之上
 git checkout -b branchwx origin/branchwx / git checkout --track origin/branchwx
 # 修改远程跟踪分支
 git branch -u origin/branchwx
 
-# 查找当前分支所跟踪的服务器与分支，从服务器上抓取数据然后尝试合并入那个远程分支
-git pull
-
-# 删除分支(不能在要删除夫人分支上操作)
+# 创建分支
+git branch branchname
+# 删除分支(不能在要删除的分支上操作)
 git branch -d branchname
-
 # 删除远程分支，从服务器上删除branchwx分支
 git push origin --delete branchwx
 
@@ -86,9 +89,11 @@ git remote reanme oldname newname
 git remote remove oldname
 
 # 打标签
-git tag -a v1.4 -m "my version 1.4"
-git tag v1.4
-git push origin v1.4 / git push origin --tags
+git add [file_path]
+git commit -m "xxxx"
+git tag v1.4(轻量便签，推荐使用) / git tag -a v1.4 -m "my version 1.4"
+git push origin master(默认情况下标签不会随着此命令一起被推送到远程仓库)
+git push origin v1.4 / git push origin --tags(推送某个标签或者推送全部标签)
 
 # 查看标签
 git tag
@@ -122,9 +127,9 @@ git checkout -- filename
 # 取消所有对文件的修改
 git checkout -- .
 
-# 显示最近四次的提交美容
+# 显示最近四次的提交内容
 git log -p/--patch -4
-# 显示文件的提交美容
+# 显示文件的提交内容
 git log -p/--patch filename
 # 显示某次具体的提交
 git show <commit_hash>

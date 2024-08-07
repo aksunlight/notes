@@ -6,4 +6,4 @@
 
 export ALL_PROXY="win主机ip:7890"
 
-clash打开局域网开关
+clash打开局域网开关（允许来自局域网的连接）
