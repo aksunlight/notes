@@ -41,7 +41,6 @@ cd ~/openocd
 ./configure LDFLAGS="-Wl,-s" --prefix=/home/xxxx/al_openocd/build --enable-fdti  --enable-ftdi-oscan1 --enable-jtag_vpi
 make -j8 && make install 
 
-
 注：
 make参数-j：设置多线程执行make编译
 LDFLAGS="-Wl,-s"：把选项-s传递给链接器，-s表示从可执行文件中删除符号表和重定位信息，不能再用GDB调试可执行文件
@@ -53,6 +52,10 @@ MSYS2无法直接使用chmod修改文件权限！！！！！！
 解决办法：修改/etc/fstab，重启即可
 
 
+
+就业环境差->不辞职，不是充要条件，不是一定的
+
+就业环境好->辞职
 
 
 
