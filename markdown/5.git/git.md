@@ -67,7 +67,7 @@ git push origin branchwx / git push origin branchwx:branchwx
 # 将本地的branchwx分支推送到远程仓库上的awesomebranch分支
 git push origin branchwx:awesomebranch
 # 在远程仓库创建同名分支，将本地分支推送上去并跟踪它
-git push --set-upstream origin branchwx
+git push --set-upstream origin branchwx / git push -u origin branchwx
 
 # 或者在本地创建一个新的分支，并将其建立在远程跟踪分支之上
 git checkout -b branchwx origin/branchwx / git checkout --track origin/branchwx
