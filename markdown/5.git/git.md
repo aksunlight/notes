@@ -98,11 +98,9 @@ git push origin v1.4 / git push origin --tags(推送某个标签或者推送全�
 # 查看标签
 git tag
 git show v1.4
-
 # 删除标签
 git tag -d v1.4
 git push origin --delete v1.4
-
 # 获取远程版本
 git fetch origin tag v1.3
 ~~~
@@ -129,6 +127,8 @@ git checkout -- filename
 # 取消所有对文件的修改
 git checkout -- .
 
+# 查看每一个分支的最后一次提交
+git branch -v 
 # 显示最近四次的提交内容
 git log -p/--patch -4
 # 显示文件的提交内容
@@ -138,15 +138,12 @@ git show <commit_hash>
 
 # 重新提交
 git commit --amend
-
-git reset HEAD~
 # 撤销最新一次的提交，在本地保存更改
-
-git reset [commit]
+git reset HEAD~
 # 撤销所有 `[commit]` 后的的提交，在本地保存更改
-
-git reset --hard [commit]
+git reset [commit]
 # 放弃所有历史，改回指定提交
+git reset --hard [commit]
 ~~~
 
 ### 1.5git分支
@@ -161,14 +158,12 @@ git branch
 
 # 创建分支
 git branch branchname
-
 # 创建空白分支
 git checkout -orphan emptybranch
 git rm -rf .
 
 # 分支切换
 git checkout branchname
-
 # 创建分支并切换过去
 git checkout -b <newbranchname>
 
@@ -178,12 +173,8 @@ git merge subbranch
 
 # 删除分支
 git branch -d branchname
-
 # 删除远程分支，从服务器上删除branchwx分支
 git push origin --delete branchwx
-
-# 查看每一个分支的最后一次提交
-git branch -v 
 ~~~
 
 ### 1.6.gitignore
