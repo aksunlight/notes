@@ -138,6 +138,15 @@ git show <commit_hash>
 
 # 重新提交
 git commit --amend
+
+git reset HEAD~
+# 撤销最新一次的提交，在本地保存更改
+
+git reset [commit]
+# 撤销所有 `[commit]` 后的的提交，在本地保存更改
+
+git reset --hard [commit]
+# 放弃所有历史，改回指定提交
 ~~~
 
 ### 1.5git分支
@@ -176,26 +185,6 @@ git push origin --delete branchwx
 # 查看每一个分支的最后一次提交
 git branch -v 
 ~~~
-
-## 撤销上一次提交
-
-```
-git reset HEAD~
-```
-
-撤销最新一次的提交，在本地保存更改
-
-```
-git reset [commit]
-```
-
-撤销所有 `[commit]` 后的的提交，在本地保存更改
-
-```
-git reset --hard [commit]
-```
-
-放弃所有历史，改回指定提交。
 
 ### 1.6.gitignore
 
