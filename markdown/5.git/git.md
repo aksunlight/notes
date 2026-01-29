@@ -15,10 +15,11 @@ git config --global color.ui auto
 
 git add *.cpp
 git add ./src/
-git add .	# 添加新文件和编辑过的文件但不包括删除的文件
+git add .	# 添加新文件(.)和编辑过的文件(#)但不包括删除的文件
 git add -u	# 添加编辑过或者删除的文件
 
 git commit -m 'initial my project'(-s选项可以用来添加"Signed-off-by"声明)
+git commit -a -m 'first commit'(-s选项可以用来添加"Signed-off-by"声明)
 ~~~
 
 ### 1.2克隆现有仓库
@@ -27,7 +28,8 @@ git commit -m 'initial my project'(-s选项可以用来添加"Signed-off-by"声�
 git clone <url>
 git clone <url> <set repository name>
 echo '# test line' >> CONTRIBUTING.md
-注意：如果你使用clone命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以origin为简写。默认情况下，git clone 命令会自动设置本地 master 分支跟踪克隆的远程仓库的 master 分支（或其它名字的默认分支）。
+注意：如果你使用clone命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以origin为简写。
+默认情况下，git clone 命令会自动设置本地 master 分支跟踪克隆的远程仓库的 master 分支（或其它名字的默认分支）。
 
 # 查看分支状态，包括未暂存的修改/未跟踪的文件等
 git status / git status -s / git status --short
@@ -37,17 +39,20 @@ git diff
 git diff --staged
 # 显示某个文件在某两次提交之间的差异
 git diff <提交1/哈希值1>..<提交2/哈希值2> -- filename
-git diff abc123..def456 -- example.txt
-
-git commit -m 'xxxx'(-s选项可以用来添加"Signed-off-by"声明)
-git commit -a -m 'first commit'(-s选项可以用来添加"Signed-off-by"声明)
+示例：git diff abc123..def456 -- example.txt
 ~~~
 
 ### 1.3和远程仓库交互
+
 ~~~
 # 查看远程仓库，该命令列出远程仓库服务器的简写
-cd projectpath
 git remote / git remote -v
+# 查看远程仓库具体信息
+git remote show <remote>
+
+# 仓库重命名和移除
+git remote reanme oldname newname
+git remote remove oldname
 
 # 添加远程仓库服务器，同时指定一个方便使用的简写
 git remote add <shortname> <url>
@@ -71,7 +76,9 @@ git push --set-upstream origin branchwx / git push -u origin branchwx
 
 # 或者在本地创建一个新的分支，并将其建立在远程跟踪分支之上
 git checkout -b branchwx origin/branchwx / git checkout --track origin/branchwx
-# 修改远程跟踪分支
+# 本地创建一个新的分支，把它建立在当前分支上
+git checkout -b branchwx
+# 修改本地分支的远程跟踪分支
 git branch -u origin/branchwx
 
 # 创建分支
@@ -80,13 +87,6 @@ git branch branchname
 git branch -d branchname
 # 删除远程分支，从服务器上删除branchwx分支
 git push origin --delete branchwx
-
-# 查看远程仓库具体信息
-git remote show <remote>	
-
-# 仓库重命名和移除
-git remote reanme oldname newname
-git remote remove oldname
 
 # 打标签
 git add [file_path]
@@ -106,7 +106,9 @@ git push origin --delete v1.4
 # 获取远程版本
 git fetch origin tag v1.3
 ~~~
+
 ### 1.4其他
+
 ~~~
 # 移除暂存区中的文件使其不再纳入版本管理（连带在工作区中删除指定文件）
 git rm <file>
@@ -136,10 +138,6 @@ git show <commit_hash>
 
 # 重新提交
 git commit --amend
-
-# 列出标签
-git tag
-git tag -l "v1.8.5*"
 ~~~
 
 ### 1.5git分支
@@ -216,9 +214,6 @@ test/
 
 # 只忽略根目录下的 TODO 文件，而不忽略 subdir/TODO
 /TODO
-
-# 忽略任何目录下名为 build 的文件夹
-build/
 
 # 忽略 doc/notes.txt，但不忽略 doc/server/arch.txt
 doc/*.txt
