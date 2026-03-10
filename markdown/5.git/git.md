@@ -7,6 +7,8 @@
 ~~~
 cd /home/user/my_project
 git init
+git add .
+git commit -m "initial repo"
 
 git config --global user.name "[name]"
 git config --global user.email "[email address]"
